@@ -1,0 +1,71 @@
+https://www.javatpoint.com/spring-boot-thymeleaf-view
+
+
+--------------------thymeleaf--------------------------
+-------------------------------------------------------
+//Genel amacı controllerden gönderilen data objelerini almak ve viewlar'da  görüntülemektir. 
+//Gerekirse Liste olan dataları forEach bile yapar.
+//index.html gibi viewlar için kullanılır
+
+
+
+th:text
+
+
+//example//
+
+	1)// html dosyasında th:text
+	<td><h4 th:text="${userObj.email}"></h4></td>
+
+
+
+----------------------springframework.web--------------
+-------------------------------------------------------
+//Genel amacı: post get yakalama ve cevaplama, 
+//model ve view ile baağlantı kurma   
+//gibi işlemlerde, controller için kullanılır  
+
+
+
+
+//springframework.web 
+	@RequestMapping(..)
+	@ModelAttribute
+	ModelAndView.setViewName(@Nullable String viewName)
+	ModelAndView.addObject(String attributeName, @Nullable Object attributeValue)
+	
+	
+	
+	
+	
+//example//
+
+	//RequestMapping kullanımı örneği clientden yapılan requestleri yakalamak için  kullanılır
+	
+	1)>//@RequestMapping  GET ÖRNEĞİ
+	//GET  http://127.0.0.1:8080/
+	@RequestMapping(value= "/" ) //client belirtilen adrese request yaptığında bu kısım çalışır
+		public String index() {
+			return "index"; //severdan cliente, cevap olarak index.html dosyası renderlenecek
+	}
+	
+	1.1)//@RequestMapping  POST ÖRNEĞİ
+	@RequestMapping(value= "/save", method=RequestMethod.POST)
+	public ModelAndView save(..){}
+	
+	
+
+	
+	2)//KARIŞIM @ModelAttribute,  ModelAndView, setViewName(), addObject() kullanımı 1 fonksiyonun içinde
+		@RequestMapping(value= "/save", method=RequestMethod.POST) 
+		public ModelAndView save(@ModelAttribute UserModel userModel) { //clientden @ModelAttribute sayesinde form'daki name value vasıtasıyla userModel datası alınır 
+			ModelAndView modelAndView = new ModelAndView();
+			modelAndView.setViewName("user-data-save");  //cliente cevap olarak yeni gösterilecek view, user-data-save.html
+			modelAndView.addObject("userObj", userModel); //clientden gönderilen userModel datasına  viewden(HTMLDEN) userObj adıyla erişilir
+			return modelAndView;
+	}
+	
+	
+	
+	
+	
